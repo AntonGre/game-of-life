@@ -1,0 +1,12 @@
+
+
+
+td {
+    min-width: 16px;
+    height: 16px;
+    border: 0.1px solid black; 
+}
+
+.alive {
+    background-color: black;
+}
