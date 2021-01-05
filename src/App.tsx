@@ -4,11 +4,13 @@ import Board from './components/board/Board';
 import { TopMenu } from './components/menu/TopMenu';
 
 function App() {
+  const [interval, setInterval] = useState<number>(100);
+  const [isStopped, setIsStopped] = useState(true);
 
   return (
     <div>
-      <TopMenu />
-      <Board size={100} interval={500} />
+      <TopMenu isStopped={isStopped} toggleStopped={() => { setIsStopped(!isStopped) }} setInterval={(newInterval) => setInterval(newInterval)} />
+      <Board size={100} interval={interval} isStopped={isStopped} />
     </div>
   );
 }

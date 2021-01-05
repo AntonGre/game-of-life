@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
 import './Board.css';
 
 export interface IBoardProps {
     size: number;
     interval?: number;
+    isStopped?: boolean;
 }
 
 export interface IBoardState {
     boardState: boolean[][];
 }
 
-const initialBoard: boolean[][] = [[false, false, false], [false, false, false], [false, false, false, false, true, true, true]]
+const initialBoard: boolean[][] = []
 
 function Board(props: IBoardProps) {
     const [generation, setGeneration] = useState<boolean[][]>(initialBoard);
@@ -19,7 +20,7 @@ function Board(props: IBoardProps) {
     useInterval(() => {
         const newGeneration = calculateGeneration(generation);
         setGeneration(newGeneration);
-    }, props.interval);
+    }, props.isStopped ? undefined : props.interval);
 
     useEffect(() => {
         // eslint-disable-next-line
@@ -27,8 +28,16 @@ function Board(props: IBoardProps) {
         setGeneration(newState);
     }, [props.size]);
 
+
+    function toggleBox(x: number, y: number) {
+        generation[x][y] = !generation[x][y];
+        const newGeneration = JSON.parse(JSON.stringify(generation))
+        setGeneration(newGeneration);
+    }
+
     const board = generation.map((row, rowIndex) => {
-        const columns = row.map((column, columnIndex) => <td key={columnIndex} className={`${column ? 'alive' : ''}`}></td>)
+        const columns = row.map((column, columnIndex) => <td key={columnIndex} className={`${column ? 'alive' : ''}`}
+            onClick={props.isStopped ? () => toggleBox(rowIndex, columnIndex) : undefined}></td>)
         return <tr key={rowIndex}>{columns}</tr>
     });
 
@@ -41,9 +50,10 @@ function Board(props: IBoardProps) {
     );
 }
 
+
 export function calculateGeneration(previousGeneration: boolean[][]): boolean[][] {
 
-    let newGeneration: boolean[][] = JSON.parse(JSON.stringify(previousGeneration))
+    const newGeneration: boolean[][] = JSON.parse(JSON.stringify(previousGeneration))
 
     for (let i = 0; i < previousGeneration.length; i++) {
         for (let j = 0; j < previousGeneration[i].length; j++) {
