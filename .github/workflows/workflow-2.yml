@@ -30,6 +30,7 @@ jobs:
             -f 'status=in_progress' \
             -f 'output[title]=A Mighty Summary' \
             -f "output[summary]=" \
+            --jq '.id' \
             /repos/${{ github.repository }}/check-runs
 
 
