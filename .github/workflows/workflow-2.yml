@@ -1,14 +1,13 @@
 name: Workflow 2
 
 on:
-  workflow_run:
-    workflows: ["Workflow 1"]
-    types:
-      - completed
+  status
 
 jobs:
   job2:
     runs-on: ubuntu-latest
+    if: >- 
+      github.event.state == 'success'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -32,7 +31,7 @@ jobs:
             -f "output[summary]=" \
             --jq '.id' \
             /repos/${{ github.repository }}/check-runs)
-
+ 
             echo "checkId=$CHECKID" >> $GITHUB_OUTPUT          
 
       - name: Write GitHub context to log
