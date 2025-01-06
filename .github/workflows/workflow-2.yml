@@ -35,11 +35,10 @@ jobs:
 
             echo "checkId=$CHECKID" >> $GITHUB_OUTPUT          
 
-
-
-      - name: Processing        
-        run: sleep 10
-
+      - name: Write GitHub context to log
+        env:
+          GITHUB_LOG: ${{ toJSON(steps) }}
+        run: echo "$GITHUB_LOG"
 
       - name: Complete Check
         env:
