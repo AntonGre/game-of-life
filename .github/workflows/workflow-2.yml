@@ -19,6 +19,7 @@ jobs:
         run: echo "$GITHUB_CONTEXT"
 
       - name: Create Check Run
+        id: checkrun
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
