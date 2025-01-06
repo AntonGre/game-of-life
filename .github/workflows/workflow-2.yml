@@ -43,15 +43,7 @@ jobs:
           gh api -X PATCH -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/${{ github.repository }}/check-runs/job2 \
-            --input - <<- EOF
-            {
-              "conclusion": "success",
-              "output": {
-                "title": "My Check Run Title 🚀",
-                "summary": "**Summary**: The run completed.",
-                "text": "Everything worked as expected. You should see a logo above."
-               }
-            }
-          EOF 
+            -f name="job2" -f "status=completed" -f conclusion=success 
+            
 
         
