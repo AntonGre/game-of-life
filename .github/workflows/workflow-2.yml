@@ -8,6 +8,7 @@ on:
 
 jobs:
   job2:
+    name: Workflow 2
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
